@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Probabilidad y Fuerza Bruta | presentacion interactiva</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ==================== NAVEGACION ==================== -->
+  <nav class="nav" id="mainNav">
+    <div class="nav__logo">
+      <span class="nav__logo-icon">&gt;_</span>
+      <span class="nav__logo-text">PROB.CRACK</span>
+    </div>
+    <ul class="nav__links">
+      <li><a href="#intro" class="nav__link active" data-section="0">Intro</a></li>
+      <li><a href="#vocabulario" class="nav__link" data-section="1">Vocabulario</a></li>
+      <li><a href="#formula" class="nav__link" data-section="2">Formula</a></li>
+      <li><a href="#reglas" class="nav__link" data-section="3">Reglas</a></li>
+      <li><a href="#simulador" class="nav__link" data-section="4">Simulador</a></li>
+      <li><a href="#conclusion" class="nav__link" data-section="5">Conclusion</a></li>
+    </ul>
+  </nav>
+
+  <!-- ==================== CONTENEDOR PRINCIPAL ==================== -->
+  <main class="presentation" id="presentation">
+
+    <!-- ==================== SECCION 1: INTRODUCCION / GANCHO ==================== -->
+    <section class="slide slide--active" id="intro" data-index="0">
+      <div class="slide__inner">
+        <div class="slide__content">
+          <h1 class="title title--glitch" data-text="Fuerza Bruta">
+            <span class="title__line">Fuerza Bruta</span>
+            <span class="title__line title__line--accent">y Probabilidad</span>
+          </h1>
+          <p class="subtitle">
+            Cuanto tiempo tardaria un atacante en romper tu contrasena?
+            <br>Descubramos la matematica detras del crackeo.
+          </p>
+
+          <div class="intro-comparison">
+            <div class="card card--weak">
+              <div class="card__label">Contrasena debil</div>
+              <input
+                type="text"
+                class="card__input card__input--weak"
+                id="weakPassword"
+                value="123456"
+                readonly
+              >
+              <div class="card__result" id="weakResult">
+                <span class="card__result-time">Calculando...</span>
+              </div>
+            </div>
+
+            <div class="intro-vs">VS</div>
+
+            <div class="card card--strong">
+              <div class="card__label">Contrasena fuerte</div>
+              <input
+                type="text"
+                class="card__input card__input--strong"
+                id="strongPassword"
+                value="T7$mK9!qL2"
+                readonly
+              >
+              <div class="card__result" id="strongResult">
+                <span class="card__result-time">Calculando...</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn--neon" id="btnEvaluate">
+            <span class="btn__text">Evaluar</span>
+            <span class="btn__icon">&raquo;</span>
+          </button>
+        </div>
+      </div>
+      <div class="slide__nav">
+        <button class="slide__arrow slide__arrow--next" data-dir="next" aria-label="Siguiente seccion">
+          <span>&#8594;</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== SECCION 2: VOCABULARIO BASICO ==================== -->
+    <section class="slide" id="vocabulario" data-index="1">
+      <div class="slide__inner">
+        <div class="slide__content">
+          <h2 class="section-title">
+            <span class="section-title__number">01</span>
+            El Espacio Muestral
+          </h2>
+
+          <div class="card card--wide">
+            <div class="card__header">
+              <span class="card__icon">&#931;</span>
+              <h3 class="card__title">Omega (&#937;): Espacio Muestral</h3>
+            </div>
+            <p class="card__text">
+              El <strong>espacio muestral</strong> es el conjunto de todos los resultados posibles.
+              Para un PIN numerico de longitud L, el numero total de combinaciones es <code>R<sup>L</sup></code>,
+              donde R es el tamano del alfabeto (R=10 para digitos 0-9).
+            </p>
+          </div>
+
+          <div class="interactive-panel">
+            <div class="slider-group">
+              <label class="slider-label" for="pinLength">
+                Longitud del PIN (L): <span class="slider-value" id="pinLengthValue">4</span>
+              </label>
+              <input
+                type="range"
+                class="slider"
+                id="pinLength"
+                min="1"
+                max="12"
+                value="4"
+              >
+            </div>
+
+            <div class="formula-display" id="multiplicationDisplay">
+              <!-- Se llena dinamicamente -->
+            </div>
+
+            <div class="result-box">
+              <div class="result-box__label">Total de combinaciones</div>
+              <div class="result-box__value" id="totalCombinations">10,000</div>
+              <div class="result-box__formula" id="formulaDisplay">10<sup>4</sup> = 10,000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide__nav">
+        <button class="slide__arrow slide__arrow--prev" data-dir="prev" aria-label="Seccion anterior">
+          <span>&#8592;</span>
+        </button>
+        <button class="slide__arrow slide__arrow--next" data-dir="next" aria-label="Siguiente seccion">
+          <span>&#8594;</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== SECCION 3: FORMULA CLASICA ==================== -->
+    <section class="slide" id="formula" data-index="2">
+      <div class="slide__inner">
+        <div class="slide__content">
+          <h2 class="section-title">
+            <span class="section-title__number">02</span>
+            La Formula Clasica
+          </h2>
+
+          <div class="formula-hero">
+            <div class="formula-hero__main">
+              <span class="formula-hero__variable">P</span>(acertar) =
+              <span class="formula-hero__fraction">
+                <span class="formula-hero__num">1</span>
+                <span class="formula-hero__den">R<sup>L</sup></span>
+              </span>
+            </div>
+          </div>
+
+          <div class="controls-grid">
+            <div class="card card--control">
+              <h3 class="card__title">Conjunto de Caracteres (R)</h3>
+              <div class="checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="chkNumbers" value="10" checked>
+                  <span class="checkbox-custom"></span>
+                  <span class="checkbox-text">Solo numeros <span class="checkbox-r">(R=10)</span></span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="chkLower" value="26">
+                  <span class="checkbox-custom"></span>
+                  <span class="checkbox-text">Minusculas <span class="checkbox-r">(R=26)</span></span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="chkUpper" value="26">
+                  <span class="checkbox-custom"></span>
+                  <span class="checkbox-text">Mayusculas <span class="checkbox-r">(R=26)</span></span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="chkSymbols" value="33">
+                  <span class="checkbox-custom"></span>
+                  <span class="checkbox-text">Simbolos <span class="checkbox-r">(R=33)</span></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="card card--control">
+              <h3 class="card__title">Longitud (L)</h3>
+              <div class="length-input-group">
+                <button class="btn btn--small btn--minus" id="btnLengthMinus">-</button>
+                <input
+                  type="number"
+                  class="length-input"
+                  id="passwordLength"
+                  value="8"
+                  min="1"
+                  max="64"
+                >
+                <button class="btn btn--small btn--plus" id="btnLengthPlus">+</button>
+              </div>
+              <div class="slider-group">
+                <input
+                  type="range"
+                  class="slider"
+                  id="lengthSlider"
+                  min="1"
+                  max="64"
+                  value="8"
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="results-panel">
+            <div class="result-card">
+              <div class="result-card__icon">&#8734;</div>
+              <div class="result-card__label">Total de combinaciones</div>
+              <div class="result-card__value" id="totalCombinationsFormula">—</div>
+              <div class="result-card__formula" id="formulaDetail">R=10, L=8</div>
+            </div>
+            <div class="result-card result-card--accent">
+              <div class="result-card__icon">&#8727;</div>
+              <div class="result-card__label">Probabilidad de acierto (1 intento)</div>
+              <div class="result-card__value" id="singleAttemptProb">—</div>
+              <div class="result-card__formula" id="probDetail">1 / R<sup>L</sup></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide__nav">
+        <button class="slide__arrow slide__arrow--prev" data-dir="prev" aria-label="Seccion anterior">
+          <span>&#8592;</span>
+        </button>
+        <button class="slide__arrow slide__arrow--next" data-dir="next" aria-label="Siguiente seccion">
+          <span>&#8594;</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== SECCION 4: REGLAS IMPORTANTES ==================== -->
+    <section class="slide" id="reglas" data-index="3">
+      <div class="slide__inner">
+        <div class="slide__content">
+          <h2 class="section-title">
+            <span class="section-title__number">03</span>
+            Independencia y Probabilidad Acumulada
+          </h2>
+
+          <div class="card card--wide">
+            <div class="card__header">
+              <span class="card__icon">&#8707;</span>
+              <h3 class="card__title">Eventos Independientes</h3>
+            </div>
+            <p class="card__text">
+              Cada intento es <strong>independiente</strong>: el resultado de un intento no afecta al siguiente.
+              Si la probabilidad de acertar en un intento es <code>p</code>, la probabilidad de
+              <strong>NO</strong> acertar es <code>1 - p</code>.
+            </p>
+          </div>
+
+          <div class="formula-display">
+            <div class="formula-display__main">
+              P(acertar en &le; n intentos) = 1 - (1 - p)<sup>n</sup>
+            </div>
+          </div>
+
+          <div class="interactive-panel">
+            <div class="card card--control">
+              <h3 class="card__title">Simulador de Acumulacion</h3>
+
+              <div class="input-row">
+                <label class="input-label" for="attemptsInput">Numero de intentos (n):</label>
+                <input
+                  type="number"
+                  class="input-field"
+                  id="attemptsInput"
+                  value="1000"
+                  min="1"
+                  max="1000000000"
+                >
+              </div>
+
+              <div class="input-row">
+                <label class="input-label" for="attemptSlider">Ajustar intentos:</label>
+                <input
+                  type="range"
+                  class="slider"
+                  id="attemptSlider"
+                  min="1"
+                  max="100000"
+                  value="1000"
+                >
+              </div>
+
+              <div class="input-row">
+                <label class="input-label">R (alfabeto):</label>
+                <select class="select-field" id="selectR">
+                  <option value="10">10 (numeros)</option>
+                  <option value="26">26 (minusculas)</option>
+                  <option value="36">36 (num+min)</option>
+                  <option value="62" selected>62 (num+min+may)</option>
+                  <option value="95">95 (todos ASCII)</option>
+                </select>
+              </div>
+
+              <div class="input-row">
+                <label class="input-label" for="lengthForAccum">L (longitud):</label>
+                <input
+                  type="number"
+                  class="input-field input-field--small"
+                  id="lengthForAccum"
+                  value="6"
+                  min="1"
+                  max="20"
+                >
+              </div>
+            </div>
+
+            <div class="progress-panel">
+              <div class="progress-bar-container">
+                <div class="progress-bar" id="accumProgressBar" style="width: 0%"></div>
+              </div>
+              <div class="progress-stats">
+                <div class="progress-stat">
+                  <span class="progress-stat__label">p (un intento):</span>
+                  <span class="progress-stat__value" id="singleP">—</span>
+                </div>
+                <div class="progress-stat">
+                  <span class="progress-stat__label">P(acertar en &le; n):</span>
+                  <span class="progress-stat__value progress-stat__value--accent" id="accumProbability">—</span>
+                </div>
+                <div class="progress-stat">
+                  <span class="progress-stat__label">Tiempo estimado:</span>
+                  <span class="progress-stat__value" id="estimatedTime">—</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide__nav">
+        <button class="slide__arrow slide__arrow--prev" data-dir="prev" aria-label="Seccion anterior">
+          <span>&#8592;</span>
+        </button>
+        <button class="slide__arrow slide__arrow--next" data-dir="next" aria-label="Siguiente seccion">
+          <span>&#8594;</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== SECCION 5: TEORICA VS EXPERIMENTAL ==================== -->
+    <section class="slide" id="simulador" data-index="4">
+      <div class="slide__inner">
+        <div class="slide__content">
+          <h2 class="section-title">
+            <span class="section-title__number">04</span>
+            Teorica vs Experimental
+          </h2>
+
+          <div class="terminal-container">
+            <div class="terminal">
+              <div class="terminal__header">
+                <span class="terminal__dot terminal__dot--red"></span>
+                <span class="terminal__dot terminal__dot--yellow"></span>
+                <span class="terminal__dot terminal__dot--green"></span>
+                <span class="terminal__title">brute_force_sim.sh</span>
+              </div>
+              <div class="terminal__body" id="terminalBody">
+                <div class="terminal__line terminal__line--system">
+                  <span class="terminal__prompt">$</span> Iniciando simulador de fuerza bruta...
+                </div>
+                <div class="terminal__line terminal__line--system">
+                  <span class="terminal__prompt">$</span> Configure los parametros y presione "Iniciar Simulacion"
+                </div>
+              </div>
+            </div>
+
+            <div class="terminal-controls">
+              <div class="card card--control card--dark">
+                <h3 class="card__title">Parametros del Ataque</h3>
+
+                <div class="input-row">
+                  <label class="input-label input-label--light" for="targetPassword">Contrasena objetivo (max 4):</label>
+                  <input
+                    type="text"
+                    class="input-field input-field--terminal"
+                    id="targetPassword"
+                    value="abc"
+                    maxlength="4"
+                    placeholder="Ej: a1B!"
+                  >
+                </div>
+
+                <div class="input-row">
+                  <label class="input-label input-label--light" for="attackAlphabet">Alfabeto de ataque:</label>
+                  <select class="select-field select-field--terminal" id="attackAlphabet">
+                    <option value="10">Solo numeros (0-9)</option>
+                    <option value="26" selected>Minusculas (a-z)</option>
+                    <option value="36">Num + Min (0-9, a-z)</option>
+                    <option value="62">Num + Min + May</option>
+                    <option value="95">Todos los ASCII imprimibles</option>
+                  </select>
+                </div>
+
+                <div class="terminal-buttons">
+                  <button class="btn btn--terminal btn--start" id="btnStartSim">
+                    <span class="btn__text">Iniciar Simulacion</span>
+                  </button>
+                  <button class="btn btn--terminal btn--stop" id="btnStopSim" disabled>
+                    <span class="btn__text">Detener</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="card card--dark card--stats">
+                <h3 class="card__title">Estadisticas en Vivo</h3>
+                <div class="stats-grid">
+                  <div class="stat-item">
+                    <div class="stat-item__label">Intentos actuales</div>
+                    <div class="stat-item__value" id="currentAttempts">0</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-item__label">Intentos por segundo</div>
+                    <div class="stat-item__value" id="attemptsPerSec">0</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-item__label">Teorico (R<sup>L</sup>/2)</div>
+                    <div class="stat-item__value" id="theoreticalAttempts">—</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-item__label">Estado</div>
+                    <div class="stat-item__value stat-item__value--status" id="simStatus">Inactivo</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="comparison-panel" id="comparisonPanel" style="display: none;">
+            <div class="card card--result">
+              <h3 class="card__title">Resultado Final</h3>
+              <div class="comparison-grid">
+                <div class="comparison-item">
+                  <div class="comparison-item__label">Contrasena encontrada</div>
+                  <div class="comparison-item__value" id="foundPassword">—</div>
+                </div>
+                <div class="comparison-item">
+                  <div class="comparison-item__label">Intentos experimentales</div>
+                  <div class="comparison-item__value comparison-item__value--accent" id="experimentalAttempts">—</div>
+                </div>
+                <div class="comparison-item">
+                  <div class="comparison-item__label">Intentos teoricos esperados</div>
+                  <div class="comparison-item__value" id="theoreticalFinal">—</div>
+                </div>
+                <div class="comparison-item">
+                  <div class="comparison-item__label">Diferencia</div>
+                  <div class="comparison-item__value" id="differenceValue">—</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide__nav">
+        <button class="slide__arrow slide__arrow--prev" data-dir="prev" aria-label="Seccion anterior">
+          <span>&#8592;</span>
+        </button>
+        <button class="slide__arrow slide__arrow--next" data-dir="next" aria-label="Siguiente seccion">
+          <span>&#8594;</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== SECCION 6: CONCLUSION ==================== -->
+    <section class="slide" id="conclusion" data-index="5">
+      <div class="slide__inner">
+        <div class="slide__content">
+          <h2 class="section-title">
+            <span class="section-title__number">05</span>
+            Conclusion
+          </h2>
+
+          <div class="conclusion-grid">
+            <div class="card card--conclusion">
+              <div class="card__icon card__icon--large">&#128274;</div>
+              <h3 class="card__title">La Longitud Vence a la Complejidad</h3>
+              <p class="card__text">
+                Un PIN de 8 digitos (10<sup>8</sup> = 100 millones) es mas fuerte que una
+                contrasena de 3 caracteres con simbolos (95<sup>3</sup> = 857,375).
+                <strong>Cada caracter adicional multiplica la dificultad.</strong>
+              </p>
+            </div>
+
+            <div class="card card--conclusion">
+              <div class="card__icon card__icon--large">&#128200;</div>
+              <h3 class="card__title">Regla del Producto</h3>
+              <p class="card__text">
+                Si hay R opciones para cada posicion y L posiciones, el total es
+                <code>R &times; R &times; ... &times; R = R<sup>L</sup></code>.
+                Cada posicion es una decision independiente.
+              </p>
+            </div>
+
+            <div class="card card--conclusion">
+              <div class="card__icon card__icon--large">&#9889;</div>
+              <h3 class="card__title">La Explosion Combinatoria</h3>
+              <p class="card__text">
+                Agregar un solo caracter puede cambiar miles de combinaciones a millones.
+                Esto es lo que hace seguras a las contrasenas largas: el espacio crece exponencialmente.
+              </p>
+            </div>
+          </div>
+
+          <div class="final-message">
+            <div class="final-message__icon">&#128161;</div>
+            <p class="final-message__text">
+              <strong>Regla de oro:</strong> Usa contrasenas largas (12+ caracteres).
+              La longitud es tu mejor defensa contra el ataque por fuerza bruta.
+            </p>
+          </div>
+
+          <button class="btn btn--neon btn--restart" id="btnRestart">
+            <span class="btn__text">Reiniciar Presentacion</span>
+            <span class="btn__icon">&#8634;</span>
+          </button>
+        </div>
+      </div>
+      <div class="slide__nav">
+        <button class="slide__arrow slide__arrow--prev" data-dir="prev" aria-label="Seccion anterior">
+          <span>&#8592;</span>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== SCRIPTS ==================== -->
+  <script type="module" src="js/main.js"></script>
+
+</body>
+</html>
