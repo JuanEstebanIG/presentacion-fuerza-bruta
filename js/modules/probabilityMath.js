@@ -177,7 +177,12 @@ export const formatBigInt = (value) => {
  */
 export const toScientific = (value) => {
   if (value === 0) return '0';
-  return value.toExponential(2);
+  const str = value.toString();
+  if (str.includes('e')) {
+    const exp = parseInt(str.split('e-')[1], 10);
+    return value.toFixed(exp + 2);
+  }
+  return str;
 };
 
 /**
@@ -290,4 +295,23 @@ export const multiplicationHTML = (R, L) => {
   parts.push(`<span class="multiplication-chain__equals">=</span>`);
   parts.push(`<span class="multiplication-chain__result">${formatBigInt(totalCombinations(R, L))}</span>`);
   return parts.join('');
+};
+
+/**
+ * Convierte segundos a una representacion legible.
+ *
+ * @param {number} seconds - Tiempo en segundos
+ * @returns {string} Tiempo formateado
+ */
+export const formatTimeFromSeconds = (seconds) => {
+  if (seconds < 0.001) return `${(seconds * 1000).toFixed(2)} milisegundos`;
+  if (seconds < 1) return `${(seconds * 1000).toFixed(2)} milisegundos`;
+  if (seconds < 60) return `${seconds.toFixed(2)} segundos`;
+  if (seconds < 3600) return `${(seconds / 60).toFixed(2)} minutos`;
+  if (seconds < 86400) return `${(seconds / 3600).toFixed(2)} horas`;
+  if (seconds < 31536000) return `${(seconds / 86400).toFixed(2)} dias`;
+  if (seconds < 31536000 * 1000) return `${(seconds / 31536000).toFixed(2)} años`;
+  if (seconds < 31536000 * 1000000) return `${(seconds / 31536000 / 1000).toFixed(2)} mil años`;
+  if (seconds < 31536000 * 1000000000) return `${(seconds / 31536000 / 1000000).toFixed(2)} millones de años`;
+  return `${(seconds / 31536000 / 1000000000).toFixed(2)} mil millones de años`;
 };

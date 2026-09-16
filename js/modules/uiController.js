@@ -22,6 +22,7 @@ import {
   singleAttemptProbability,
   accumulatedProbability,
   estimatedTimeFormatted,
+  formatTimeFromSeconds,
   analyzePassword,
 } from './probabilityMath.js';
 
@@ -68,6 +69,7 @@ export const initDOM = () => {
   dom.singleAttemptProb = document.getElementById('singleAttemptProb');
   dom.formulaDetail = document.getElementById('formulaDetail');
   dom.probDetail = document.getElementById('probDetail');
+  dom.liveFormula = document.getElementById('liveFormula');
 
   // Seccion 4: Reglas
   dom.attemptsInput = document.getElementById('attemptsInput');
@@ -78,6 +80,8 @@ export const initDOM = () => {
   dom.singleP = document.getElementById('singleP');
   dom.accumProbability = document.getElementById('accumProbability');
   dom.estimatedTime = document.getElementById('estimatedTime');
+  dom.attackVelocity = document.getElementById('attackVelocity');
+  dom.timeDisplay = document.getElementById('timeDisplay');
 
   // Seccion 5: Terminal
   dom.terminalBody = document.getElementById('terminalBody');
@@ -245,9 +249,11 @@ export const updateFormulaDisplay = () => {
 
   // Actualizar DOM
   dom.totalCombinationsFormula.textContent = formatBigInt(combinations);
-  dom.singleAttemptProb.textContent = toScientific(prob);
+  const percentage = (prob * 100).toFixed(20).replace(/0+$/, '').replace(/\.$/, '');
+  dom.singleAttemptProb.textContent = `${percentage}%`;
   dom.formulaDetail.textContent = `R=${R}, L=${L}`;
   dom.probDetail.innerHTML = `1 / ${R}<sup>${L}</sup>`;
+  dom.liveFormula.innerHTML = `P(acertar) = 1 / ${R}<sup>${L}</sup> = ${toScientific(prob)}`;
 
   // Animar
   dom.totalCombinationsFormula.style.animation = 'none';
@@ -278,6 +284,7 @@ export const updateAccumulatedDisplay = () => {
   const R = parseInt(dom.selectR.value, 10);
   const L = parseInt(dom.lengthForAccum.value, 10);
   const n = parseInt(dom.attemptsInput.value, 10);
+  const V = parseInt(dom.attackVelocity.value, 10) || 1000;
 
   // Validar
   if (isNaN(n) || n < 1) return;
@@ -304,6 +311,11 @@ export const updateAccumulatedDisplay = () => {
   dom.singleP.textContent = toScientific(prob);
   dom.accumProbability.textContent = `${(accumProb * 100).toFixed(4)}%`;
   dom.estimatedTime.textContent = timeStr;
+
+  // Calcular tiempo con velocidad de ataque personalizada
+  const totalCombinationsBigInt = totalCombinations(R, L);
+  const timeSeconds = Number(totalCombinationsBigInt) / V;
+  dom.timeDisplay.innerHTML = `Tiempo estimado: <strong>${formatTimeFromSeconds(timeSeconds)}</strong>`;
 
   // Sincronizar slider
   dom.attemptSlider.value = Math.min(n, dom.attemptSlider.max);

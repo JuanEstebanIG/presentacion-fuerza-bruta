@@ -216,6 +216,9 @@
                   value="8"
                 >
               </div>
+              <div class="live-formula" id="liveFormula">
+                P(acertar) = 1 / 10<sup>8</sup> = 0.00000001
+              </div>
             </div>
           </div>
 
@@ -269,6 +272,56 @@
           <div class="formula-display">
             <div class="formula-display__main">
               P(acertar en &le; n intentos) = 1 - (1 - p)<sup>n</sup>
+            </div>
+          </div>
+
+          <div class="formulas-reference">
+            <div class="formulas-reference__block">
+              <h4 class="formulas-reference__title">Formulas de Tiempo</h4>
+              <div class="formula-line">
+                <span class="formula-label">Tiempo estimado:</span>
+                <span class="formula-expr">T = R<sup>L</sup> / V</span>
+              </div>
+              <div class="formula-line">
+                <span class="formula-label">Velocidad de ataque:</span>
+                <span class="formula-expr">V = 1 / t_intento</span>
+              </div>
+              <div class="input-row">
+                <label class="input-label" for="attackVelocity">V (intentos/seg):</label>
+                <input
+                  type="number"
+                  class="input-field input-field--small"
+                  id="attackVelocity"
+                  value="1000"
+                  min="1"
+                  max="1000000000"
+                >
+              </div>
+              <div class="time-display" id="timeDisplay">
+                Tiempo estimado: <strong>—</strong>
+              </div>
+            </div>
+
+            <div class="formulas-reference__block">
+              <h4 class="formulas-reference__title">Convenciones</h4>
+              <div class="convention-item">
+                <span class="convention-var">P</span> = Probabilidad de acierto en un intento
+              </div>
+              <div class="convention-item">
+                <span class="convention-var">R</span> = Tamano del alfabeto (caracteres disponibles)
+              </div>
+              <div class="convention-item">
+                <span class="convention-var">L</span> = Longitud de la contrasena
+              </div>
+              <div class="convention-item">
+                <span class="convention-var">V</span> = Velocidad de ataque (intentos/segundo)
+              </div>
+              <div class="convention-item">
+                <span class="convention-var">n</span> = Numero de intentos realizados
+              </div>
+              <div class="convention-item">
+                <span class="convention-var">T</span> = Tiempo estimado para agotar todas las combinaciones
+              </div>
             </div>
           </div>
 

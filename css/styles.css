@@ -193,7 +193,6 @@ body {
   transform: translateY(0);
   position: relative;
   z-index: 1;
-  min-height: 100vh;
 }
 
 .slide--exit-left {
@@ -219,8 +218,8 @@ body {
   display: flex;
   justify-content: space-between;
   gap: var(--space-md);
-  margin-top: auto;
-  padding-top: var(--space-xl);
+  margin-top: var(--space-xl);
+  padding-top: var(--space-md);
 }
 
 .slide__arrow {
@@ -845,9 +844,82 @@ body {
 
 .result-card__formula {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 1rem;
   color: var(--text-muted);
   margin-top: var(--space-sm);
+}
+
+.live-formula {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+
+/* ==================== FORMULAS REFERENCE ==================== */
+.formulas-reference {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-xl);
+}
+
+.formulas-reference__block {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+}
+
+.formulas-reference__title {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+}
+
+.formula-line {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+.formula-label {
+  color: var(--text-muted);
+}
+
+.formula-expr {
+  color: var(--amber);
+}
+
+.convention-item {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.convention-var {
+  color: var(--amber);
+  font-weight: 700;
+}
+
+.time-display {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  margin-top: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(212, 164, 74, 0.1);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--amber);
 }
 
 /* ==================== INPUTS ==================== */
@@ -1244,6 +1316,10 @@ body {
   }
 
   .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .formulas-reference {
     grid-template-columns: 1fr;
   }
 

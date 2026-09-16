@@ -138,6 +138,7 @@ const init = () => {
   dom.attemptSlider.addEventListener('input', () => syncAttemptInputs('slider'));
   dom.selectR.addEventListener('change', updateAccumulatedDisplay);
   dom.lengthForAccum.addEventListener('input', updateAccumulatedDisplay);
+  dom.attackVelocity.addEventListener('input', updateAccumulatedDisplay);
 
   // ==================== EVENT LISTENERS: SECCION 5 (SIMULADOR) ====================
 
