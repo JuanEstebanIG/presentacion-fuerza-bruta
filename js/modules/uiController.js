@@ -394,7 +394,7 @@ export const showComparison = (result) => {
   dom.comparisonPanel.style.display = 'block';
   dom.foundPassword.textContent = result.password;
   dom.experimentalAttempts.textContent = result.attempts.toLocaleString('es-ES');
-  dom.theoreticalFinal.textContent = result.theoretical.toLocaleString('es-ES');
+  dom.theoreticalFinal.textContent = Number(result.theoreticalExpected).toLocaleString('es-ES');
   dom.differenceValue.textContent = result.difference.toLocaleString('es-ES');
 
   // Animar entrada

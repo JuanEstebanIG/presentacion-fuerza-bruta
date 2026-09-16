@@ -139,7 +139,7 @@ export class BruteForceSim {
 
     // Calculos teoricos pre-computados
     this._theoreticalTotal = totalCombinations(this.alphabetSize, this.target.length);
-    this._theoreticalExpected = expectedAttempts(this.alphabetSize, this.target.length);
+    this._theoreticalExpected = this._theoreticalTotal;
   }
 
   /**
@@ -264,7 +264,7 @@ export class BruteForceSim {
               attempts: this._attempts,
               elapsed,
               speed,
-              theoretical: Number(this._theoreticalExpected),
+              theoreticalExpected: this._theoreticalExpected,
               difference: Math.abs(this._attempts - Number(this._theoreticalExpected)),
             });
 
@@ -278,6 +278,7 @@ export class BruteForceSim {
               elapsed: this.elapsed,
               speed: this.speed,
               currentGuess: guess,
+              theoreticalExpected: this._theoreticalExpected,
             });
           }
         }
@@ -354,7 +355,7 @@ export class BruteForceSim {
 
     // Recalcular teoria
     this._theoreticalTotal = totalCombinations(this.alphabetSize, this.target.length);
-    this._theoreticalExpected = expectedAttempts(this.alphabetSize, this.target.length);
+    this._theoreticalExpected = this._theoreticalTotal;
 
     // Resetear contadores
     this._attempts = 0;

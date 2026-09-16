@@ -218,6 +218,10 @@ function startSimulation() {
   updateSimStatus('running');
   dom.comparisonPanel.style.display = 'none';
 
+  // Mostrar valor teorico inmediatamente
+  const theoretical = expectedAttempts(alphabetSize, target.length);
+  dom.theoreticalAttempts.textContent = formatBigInt(theoretical);
+
   // Crear instancia de simulacion
   simulation = new BruteForceSim({
     target,

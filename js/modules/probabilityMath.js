@@ -204,7 +204,7 @@ export const multiplicationChain = (R, L) => {
 
 /**
  * Estima el tiempo formateado para una contrasena dada.
- * Muestra en formato legible (segundos, minutos, horas, dias, anios, etc.)
+ * Muestra en formato legible (segundos, minutos, horas, dias, años, etc.)
  *
  * @param {number} R - Tamano del alfabeto
  * @param {number} L - Longitud
@@ -213,7 +213,7 @@ export const multiplicationChain = (R, L) => {
  *
  * @example
  *   estimatedTimeFormatted(10, 4, 1000)  // "10 segundos"
- *   estimatedTimeFormatted(95, 8, 1000)  // "~52.8 mil anios"
+ *   estimatedTimeFormatted(95, 8, 1000)  // "~52.8 mil años"
  */
 export const estimatedTimeFormatted = (R, L, speed = 1000) => {
   const total = totalCombinations(R, L);
@@ -226,10 +226,10 @@ export const estimatedTimeFormatted = (R, L, speed = 1000) => {
   if (seconds < 31536000) return `${Math.round(seconds / 86400)} dias`;
 
   const years = seconds / 31536000;
-  if (years < 1000) return `~${Math.round(years)} anios`;
-  if (years < 1e6) return `~${(years / 1000).toFixed(1)} mil anios`;
-  if (years < 1e9) return `~${(years / 1e6).toFixed(1)} millones de anios`;
-  return `~${(years / 1e9).toFixed(1)} mil millones de anios`;
+  if (years < 1000) return `~${Math.round(years)} años`;
+  if (years < 1e6) return `~${(years / 1000).toFixed(1)} mil años`;
+  if (years < 1e9) return `~${(years / 1e6).toFixed(1)} millones de años`;
+  return `~${(years / 1e9).toFixed(1)} mil millones de años`;
 };
 
 /**
