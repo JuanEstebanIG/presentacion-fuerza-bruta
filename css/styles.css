@@ -167,7 +167,6 @@ body {
 /* ==================== PRESENTACION ==================== */
 .presentation {
   position: relative;
-  min-height: 100vh;
 }
 
 /* ==================== SLIDES ==================== */
@@ -176,7 +175,6 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   opacity: 0;
@@ -195,6 +193,7 @@ body {
   transform: translateY(0);
   position: relative;
   z-index: 1;
+  min-height: 100vh;
 }
 
 .slide--exit-left {
@@ -220,7 +219,8 @@ body {
   display: flex;
   justify-content: space-between;
   gap: var(--space-md);
-  margin-top: var(--space-xl);
+  margin-top: auto;
+  padding-top: var(--space-xl);
 }
 
 .slide__arrow {
